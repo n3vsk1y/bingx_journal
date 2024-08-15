@@ -1,6 +1,18 @@
 import datetime
 
 from sqlalchemy import MetaData, Table, Column, Integer, String, TIMESTAMP, ForeignKey, JSON
+from sqlalchemy.orm import Mapped, mapped_column
+
+
+# class TariffOrm(Base)
+
+
+
+
+
+
+
+
 
 metadata = MetaData()
 
