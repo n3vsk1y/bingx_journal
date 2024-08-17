@@ -1,8 +1,8 @@
-# from typing import Annotated
-# from sqlalchemy import String
+from typing import Annotated
+from sqlalchemy import Integer
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, mapped_column
 
 from fastapi_backend.config import settings
 
@@ -10,6 +10,7 @@ async_engine = create_async_engine(url=settings.DATABASE_URL_asyncpg, echo=True)
 async_session_factory = async_sessionmaker(async_engine)
 
 # str_256 = Annotated[str, 256]
+int_pk = Annotated[Integer, mapped_column(Integer, primary_key=True, index=True)]
 
 
 class Base(DeclarativeBase):

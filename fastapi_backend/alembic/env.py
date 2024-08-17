@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from fastapi_backend.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+from fastapi_backend.config import settings
 from fastapi_backend.sqlalchemy_database_orm.models import metadata
 
 # this is the Alembic Config object, which provides
@@ -13,12 +13,13 @@ from fastapi_backend.sqlalchemy_database_orm.models import metadata
 config = context.config
 
 section = config.config_ini_section
-print(f"Connecting to database at {DB_HOST}:{DB_PORT} as {DB_USER} with name {DB_NAME} and {DB_PASS} as password")
-config.set_section_option(section, 'DB_HOST', str(DB_HOST))
-config.set_section_option(section, 'DB_PORT', str(DB_PORT))
-config.set_section_option(section, 'DB_NAME', str(DB_NAME))
-config.set_section_option(section, 'DB_USER', str(DB_USER))
-config.set_section_option(section, 'DB_PASS', str(DB_PASS))
+print(f"Connecting to database at {settings.DB_HOST}:{settings.DB_PORT} as {settings.DB_USER} with name {settings.DB_NAME} and {settings.DB_PASS} as password")
+config.set_section_option(section, 'DB_HOST', settings.DB_HOST)
+config.set_section_option(section, 'DB_PORT', str(settings.DB_PORT))
+config.set_section_option(section, 'DB_NAME', settings.DB_NAME)
+config.set_section_option(section, 'DB_USER', settings.DB_USER)
+config.set_section_option(section, 'DB_PASS', settings.DB_PASS)
+config.set_section_option(section, 'sqlalchemy.url', settings.DATABASE_URL_asyncpg)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -27,15 +28,14 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+# target_metadata = Base.metadata
 target_metadata = metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
 
 def run_migrations_offline() -> None:
     """Run alembic in 'offline' mode.
